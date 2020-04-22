@@ -3,8 +3,10 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  Entity,
 } from 'typeorm';
 
+@Entity('categories')
 class Category {
   @PrimaryGeneratedColumn()
   id: string;
