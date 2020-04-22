@@ -1,26 +1,34 @@
 import { Router } from 'express';
 
-// import TransactionsRepository from '../repositories/TransactionsRepository';
-// import CreateTransactionService from '../services/CreateTransactionService';
-// import DeleteTransactionService from '../services/DeleteTransactionService';
-// import ImportTransactionsService from '../services/ImportTransactionsService';
+import TransactionService from '../services/TransactionService';
 
 const transactionsRouter = Router();
 
-transactionsRouter.get('/', async (request, response) => {
-  // TODO
+transactionsRouter.get('/', async (req, res) => {
+  return res.json(TransactionService.list());
 });
 
-transactionsRouter.post('/', async (request, response) => {
-  // TODO
+transactionsRouter.post('/', async (req, res) => {
+  const { title, category, type, value } = req.body;
+
+  const transact = await TransactionService.store({
+    title,
+    category,
+    type,
+    value,
+  });
+
+  return res.status(201).json(transact);
 });
 
-transactionsRouter.delete('/:id', async (request, response) => {
-  // TODO
+transactionsRouter.delete('/:id', async (req, res) => {
+  await TransactionService.delete(req.params.id);
+
+  return res.json();
 });
 
-transactionsRouter.post('/import', async (request, response) => {
-  // TODO
-});
+// transactionsRouter.post('/import', async (req, res) => {
+//   // TODO
+// });
 
 export default transactionsRouter;
