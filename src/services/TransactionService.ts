@@ -23,46 +23,46 @@ interface List {
 }
 
 class TransactionService {
-  private transactionRepository = getCustomRepository(TransactionsRepository);
-
-  private categoryRepository = getRepository(Category);
-
   public async list(): Promise<List> {
-    const transactions = await this.transactionRepository.find();
-    const balance = await this.transactionRepository.getBalance();
+    const transactionRepository = getCustomRepository(TransactionsRepository);
+    const transactions = await transactionRepository.find();
+    const balance = await transactionRepository.getBalance();
     return { transactions, balance };
   }
 
   // eslint-disable-next-line prettier/prettier
   public async store({ title, category, type, value }: Request): Promise<Transaction> {
-    const { total } = await this.transactionRepository.getBalance();
+    const transactionRepository = getCustomRepository(TransactionsRepository);
+    const categoryRepository = getRepository(Category);
+    const { total } = await transactionRepository.getBalance();
 
     if (type === 'outcome' && total < value)
       throw new AppError('Insuficient balance');
 
-    let transactcategory = await this.categoryRepository.findOne({
+    let transactcategory = await categoryRepository.findOne({
       where: { title: category },
     });
 
     if (!transactcategory) {
-      transactcategory = this.categoryRepository.create({ title: category });
-      await this.transactionRepository.save(transactcategory);
+      transactcategory = categoryRepository.create({ title: category });
+      await transactionRepository.save(transactcategory);
     }
 
-    const transaction = this.transactionRepository.create({
+    const transaction = transactionRepository.create({
       title,
       value,
       type,
       category: transactcategory,
     });
 
-    await this.transactionRepository.save(transaction);
+    await transactionRepository.save(transaction);
 
     return transaction;
   }
 
   public async delete(transId: string): Promise<void> {
-    await this.transactionRepository.delete(transId);
+    const transactionRepository = getCustomRepository(TransactionsRepository);
+    await transactionRepository.delete(transId);
   }
 
   // async import(): Promise<Transaction[]> {
