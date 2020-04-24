@@ -18,6 +18,7 @@ export default class CreateTransactions1587516154961
           {
             name: 'category_id',
             type: 'uuid',
+            isNullable: true,
           },
           {
             name: 'title',
@@ -25,7 +26,7 @@ export default class CreateTransactions1587516154961
           },
           {
             name: 'value',
-            type: 'BIGINT',
+            type: 'int',
           },
           {
             name: 'type',

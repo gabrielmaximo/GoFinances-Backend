@@ -8,7 +8,7 @@ import {
 
 @Entity('categories')
 class Category {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
