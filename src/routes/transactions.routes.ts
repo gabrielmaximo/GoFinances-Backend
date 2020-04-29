@@ -1,4 +1,4 @@
-import { Router, response } from 'express';
+import { Router } from 'express';
 import multer from 'multer';
 import TransactionService from '../services/TransactionService';
 import uploadConfig from '../config/upload';
@@ -7,7 +7,9 @@ const transactionsRouter = Router();
 const upload = multer(uploadConfig);
 
 transactionsRouter.get('/', async (req, res) => {
-  return res.json(await TransactionService.list());
+  const transactions = await TransactionService.list();
+
+  return res.json(transactions);
 });
 
 transactionsRouter.post('/', async (req, res) => {
