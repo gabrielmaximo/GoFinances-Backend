@@ -6,8 +6,8 @@ export default class RelationTransactionCategory1587517740059
     await queryRunner.createForeignKey(
       'transactions',
       new TableForeignKey({
-        name: 'TransactionsCategory',
-        referencedTableName: 'category',
+        name: 'TransactionCategories',
+        referencedTableName: 'categories',
         columnNames: ['category_id'],
         referencedColumnNames: ['id'],
         onDelete: 'SET NULL',
@@ -17,6 +17,6 @@ export default class RelationTransactionCategory1587517740059
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropForeignKey('transactions', 'TransactionsCategory');
+    await queryRunner.dropForeignKey('transactions', 'TransactionCategories');
   }
 }
